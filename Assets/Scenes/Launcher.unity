@@ -155,7 +155,7 @@ MonoBehaviour:
   _initializables:
   - {fileID: 2095004658}
   _initializeSceneName: Level
-  _testLevel: {fileID: 11400000, guid: 72b8eac23ee9bf94db6b677675baaf0b, type: 2}
+  _testLevel: {fileID: 11400000, guid: 9594c6796dc4b9d4089daa9109b45230, type: 2}
   _buildOnStart: 0
 --- !u!4 &287537058
 Transform:

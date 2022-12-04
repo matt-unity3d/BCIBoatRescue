@@ -32,18 +32,73 @@ public class LevelBuilder : MonoBehaviour
             LevelSize = buildInstructions.LevelSize,
         };
 
+        //Fit Camera
+        var cameraT = Camera.main.transform;
+        cameraT.position = new Vector3(builtLevel.LevelSize.x / 2, 9, (builtLevel.LevelSize.y / 2) + 1);
+            
+        BuildPuzzleBorder(ref builtLevel);
+        
+        //Build blocks from instructions
         foreach (var blockInstruction in buildInstructions.LevelBlocks)
         {
-            var levelBlock = InstantiateBlockType(blockInstruction.Type);
-            levelBlock.Column = (int) blockInstruction.Position.x;
-            levelBlock.Row = (int) blockInstruction.Position.y;
-            
-            levelBlock.transform.position = new Vector3(levelBlock.Column * _gridSize.x, 0 , levelBlock.Row * _gridSize.y);
-
-            builtLevel.AddBlock(levelBlock);
+            BuildBlock(blockInstruction, ref builtLevel);
         }
 
         return builtLevel;
+    }
+
+    private void BuildPuzzleBorder(ref Level builtLevel)
+    {
+        //Left Columns
+        for (int i = -1; i < builtLevel.LevelSize.y + 2; i++)
+        {
+            BuildBlock(new LevelBuilderInstructions.LevelBlockInstruction
+            {
+                Position = new Vector2(-1, i),
+                Type = BlockType.Barrier
+            }, ref builtLevel);
+        }
+        
+        //Right Columns
+        for (int i = -1; i < builtLevel.LevelSize.y + 2; i++)
+        {
+            BuildBlock(new LevelBuilderInstructions.LevelBlockInstruction
+            {
+                Position = new Vector2(builtLevel.LevelSize.x + 1, i),
+                Type = BlockType.Barrier
+            }, ref builtLevel);
+        }
+        
+        //Top Row
+        for (int i = 0; i < builtLevel.LevelSize.x + 1; i++)
+        {
+            BuildBlock(new LevelBuilderInstructions.LevelBlockInstruction
+            {
+                Position = new Vector2(i, builtLevel.LevelSize.y + 1),
+                Type = BlockType.Barrier
+            }, ref builtLevel);
+        }
+        
+        //Bottom Row
+        for (int i = 0; i < builtLevel.LevelSize.x + 1; i++)
+        {
+            BuildBlock(new LevelBuilderInstructions.LevelBlockInstruction
+            {
+                Position = new Vector2(i, -1),
+                Type = BlockType.Barrier
+            }, ref builtLevel);
+        }
+    }
+    
+    private void BuildBlock(LevelBuilderInstructions.LevelBlockInstruction blockInstruction, ref Level level)
+    {
+        var levelBlock = InstantiateBlockType(blockInstruction.Type);
+        levelBlock.Column = (int) blockInstruction.Position.x + 1;
+        levelBlock.Row = (int) blockInstruction.Position.y + 1;
+            
+        levelBlock.transform.position = new Vector3(levelBlock.Column * _gridSize.x, 0 , levelBlock.Row * _gridSize.y);
+
+        level.AddBlock(levelBlock);
     }
 
     public void DestroyLevel(Level level)
