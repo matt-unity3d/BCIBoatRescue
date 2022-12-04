@@ -15,6 +15,7 @@ namespace DefaultNamespace
     
         public int LevelNumber = 1;
         public Vector2 LevelSize = Vector2.one;
+        public Vector3 CameraPosition;
         public LevelBlockInstruction[] LevelBlocks;
     }
 }

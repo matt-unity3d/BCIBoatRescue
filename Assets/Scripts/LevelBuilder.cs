@@ -34,7 +34,7 @@ public class LevelBuilder : MonoBehaviour
 
         //Fit Camera
         var cameraT = Camera.main.transform;
-        cameraT.position = new Vector3(builtLevel.LevelSize.x / 2, 9, (builtLevel.LevelSize.y / 2) + 1);
+        cameraT.position = buildInstructions.CameraPosition;
             
         BuildPuzzleBorder(ref builtLevel);
         
