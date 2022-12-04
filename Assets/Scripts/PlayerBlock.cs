@@ -63,7 +63,7 @@ public class PlayerBlock : LevelBlock
                 _requestedPosition.z = rBlock.Row - 1;
                 break;
             case PlayerMoveDirection.Down:
-                rBlock = activeLevel.GetColumn(Column)
+                rBlock = activeLevel.GetColumn(Column, true)
                                     .FirstOrDefault(b => b.Row < Row && b.Type == BlockType.Barrier);
                 if (rBlock == null)
                 {
@@ -74,7 +74,7 @@ public class PlayerBlock : LevelBlock
                 _requestedPosition.z = rBlock.Row + 1;
                 break;
             case PlayerMoveDirection.Left:
-                var cBlock = activeLevel.GetRow(Row)
+                var cBlock = activeLevel.GetRow(Row, true)
                                         .FirstOrDefault(b => b.Column < Column && b.Type == BlockType.Barrier);
                 if (cBlock == null)
                 {

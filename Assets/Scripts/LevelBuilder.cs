@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using DefaultNamespace;
-using UnityEditor;
 using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour

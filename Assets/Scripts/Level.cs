@@ -75,20 +75,30 @@ public class Level
         Columns.Clear();
     }
     
-    public IEnumerable<LevelBlock> GetRow(int row)
+    public IEnumerable<LevelBlock> GetRow(int row, bool reverse = false)
     {
         if (Rows.TryGetValue(row, out var blocks))
         {
+            if (reverse)
+            {
+                return blocks.OrderByDescending(b => b.Column);
+            }
+            
             return blocks.OrderBy(b => b.Column);
         }
 
         return ArraySegment<LevelBlock>.Empty;
     }
 
-    public IEnumerable<LevelBlock> GetColumn(int column)
+    public IEnumerable<LevelBlock> GetColumn(int column, bool reverse = false)
     {
         if (Columns.TryGetValue(column, out var blocks))
         {
+            if (reverse)
+            {
+                return blocks.OrderByDescending(b => b.Row);
+            }
+            
             return blocks.OrderBy(b => b.Row);
         }
 
