@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelBlock : MonoBehaviour
 {
     [SerializeField] private BlockType _blockType;
-    
+
     public virtual BlockType Type => _blockType;
 
     public int Row;

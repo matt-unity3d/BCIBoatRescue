@@ -14,6 +14,7 @@ public class Level
     public readonly Dictionary<int, List<LevelBlock>> Rows = new();
     public readonly Dictionary<int, List<LevelBlock>> Columns = new();
 
+    public bool PlayersMoving => Players.Count(p => p.IsMoving) > 0;
     public int TotalRewards => LevelBlocks.Count(b => b.Type == BlockType.Reward);
 
     public void AddBlock(LevelBlock block)

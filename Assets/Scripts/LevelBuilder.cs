@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using DefaultNamespace;
+using UnityEditor;
 using UnityEngine;
 
 public class LevelBuilder : MonoBehaviour
@@ -29,7 +32,7 @@ public class LevelBuilder : MonoBehaviour
             LevelSize = buildInstructions.LevelSize,
         };
 
-        foreach (var blockInstruction in buildInstructions._LevelBlocks)
+        foreach (var blockInstruction in buildInstructions.LevelBlocks)
         {
             var levelBlock = InstantiateBlockType(blockInstruction.Type);
             levelBlock.Column = (int) blockInstruction.Position.x;
@@ -89,18 +92,4 @@ public class LevelBuilder : MonoBehaviour
 
         return blockGO != null ? blockGO.GetComponent<LevelBlock>() : null;
     }
-}
-
-[Serializable]
-public class LevelBuilderInstructions
-{
-    [Serializable]
-    public class LevelBlock
-    {
-        public Vector2 Position;
-        public BlockType Type;
-    }
-    
-    public Vector2 LevelSize = Vector2.one;
-    public LevelBlock[] _LevelBlocks;
 }

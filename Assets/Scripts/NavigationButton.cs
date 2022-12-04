@@ -60,6 +60,11 @@ public class NavigationButton : MonoBehaviour
 
     private void Unregister()
     {
+        if (InputManager.Instance == null)
+        {
+            return;
+        }
+        
         switch (_type)  
         {
             case ButtonType.Select:

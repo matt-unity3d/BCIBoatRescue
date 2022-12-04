@@ -1,4 +1,5 @@
 using System;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Initialize")]
     [SerializeField] private GameObject[] _initializables = Array.Empty<GameObject>();
-    [SerializeField] private Scene _initializeScene;
+    [SerializeField] private string _initializeSceneName;
     
     [Header("TestLevel")]
     [SerializeField] private LevelBuilderInstructions _testLevel;
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             
-            LoadScene(_initializeScene);
+            LoadScene(_initializeSceneName);
         }
     }
 
@@ -76,9 +77,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region SceneManagement
-    public void LoadScene(Scene scene)
+    public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(sceneName);
     }
 
     #endregion
@@ -109,7 +110,7 @@ public class GameManager : MonoBehaviour
 
     public void MovePlayers(PlayerMoveDirection direction)
     {
-        if (ActiveLevel == null)
+        if (ActiveLevel == null || ActiveLevel.PlayersMoving)
         {
             return;
         }
