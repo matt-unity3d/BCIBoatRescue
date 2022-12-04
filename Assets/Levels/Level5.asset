@@ -103,3 +103,23 @@ MonoBehaviour:
     Type: 3
   - Position: {x: 5, y: 1}
     Type: 3
+  - Position: {x: 5, y: 7}
+    Type: 1
+  - Position: {x: 6, y: 7}
+    Type: 1
+  - Position: {x: 7, y: 7}
+    Type: 1
+  - Position: {x: 8, y: 7}
+    Type: 1
+  - Position: {x: 1, y: 4}
+    Type: 1
+  - Position: {x: 1, y: 3}
+    Type: 1
+  - Position: {x: 1, y: 4}
+    Type: 1
+  - Position: {x: 1, y: 2}
+    Type: 1
+  - Position: {x: 1, y: 1}
+    Type: 1
+  - Position: {x: 8, y: 1}
+    Type: 1
