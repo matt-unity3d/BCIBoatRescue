@@ -186,6 +186,8 @@ public class P300Controller : Controller
         yield return null;
     }
 
+    public int StimCount;
+    
     public override IEnumerator Stimulus()
     {
         numFlashesPerObjectPerSelection = randNumFlashes.Next(numFlashesLowerLimit, numFlashesUpperLimit);
@@ -206,6 +208,9 @@ public class P300Controller : Controller
                     spoList.Add(spo);
                 }
             }
+            
+            Debug.LogWarning($"Stim Count: {StimCount}");
+            ++StimCount;
             
             for (int i = 0; i < stimOrder.Length; i++)
             {

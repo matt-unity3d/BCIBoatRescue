@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level5
   m_EditorClassIdentifier: 
   LevelNumber: 6
-  LevelSize: {x: 10, y: 10}
+  LevelSize: {x: 8, y: 8}
   CameraPosition: {x: 3.2, y: 12.9, z: 4.62}
   LevelBlocks:
   - Position: {x: 0, y: 0}
