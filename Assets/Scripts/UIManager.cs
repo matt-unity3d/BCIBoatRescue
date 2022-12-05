@@ -64,6 +64,12 @@ public class UIManager : MonoBehaviour
         _gameWinMovementText.SetText($"Moves: {_movementText.text}");
     }
 
+    public void NextLevel()
+    {
+        GameManager.Instance.NextLevel();
+        ResetUI();
+    }
+
     public void RestartLevel()
     {
         GameManager.Instance.RestartLevel();

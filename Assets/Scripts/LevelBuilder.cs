@@ -27,6 +27,7 @@ public class LevelBuilder : MonoBehaviour
     {
         var builtLevel = new Level
         {
+            LevelNumber = buildInstructions.LevelNumber,
             LevelSize = buildInstructions.LevelSize,
         };
 

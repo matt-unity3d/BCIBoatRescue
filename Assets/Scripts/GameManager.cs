@@ -97,11 +97,40 @@ public class GameManager : MonoBehaviour
     {
         Reset();
 
-        if (_levelSequences.Length == 0 || _levelIndex < 0 || _levelIndex >= _levelSequences.Length)
+        if (_levelSequences.Length == 0)
         {
             return;
         }
 
+        EnterLevel(_levelIndex);
+    }
+
+    [ContextMenu("Destroy Test Level")]
+    public void LeaveLevel()
+    {
+        if (ActiveLevel == null)
+        {
+            return;
+        }
+        
+        _inputManager.ToggleStimulusInput(false);
+
+        _builder.DestroyLevel(ActiveLevel);
+        ActiveLevel = null;
+    }
+
+    public void EnterLevel(int levelNumber)
+    {
+        if (levelNumber < 0)
+        {
+            levelNumber = _levelSequences.Length - 1;
+        }
+        else if (levelNumber >= _levelSequences.Length)
+        {
+            levelNumber = 0;
+        }
+
+        _levelIndex = levelNumber;
         ActiveLevel = _builder.BuildLevel(_levelSequences[_levelIndex]);
         _uiManager.InitializeLevelDetails(ActiveLevel);
         _totalRewards = ActiveLevel.TotalRewards;
@@ -109,13 +138,10 @@ public class GameManager : MonoBehaviour
         _inputManager.ToggleStimulusInput(true);
     }
 
-    [ContextMenu("Destroy Test Level")]
-    public void LeaveLevel()
+    public void NextLevel()
     {
-        _inputManager.ToggleStimulusInput(false);
-
-        _builder.DestroyLevel(ActiveLevel);
-        ActiveLevel = null;
+        LeaveLevel();
+        EnterLevel(++_levelIndex);
     }
 
     [ContextMenu("Restart Test Level")]
