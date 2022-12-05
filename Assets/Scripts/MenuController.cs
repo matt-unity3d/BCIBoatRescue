@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,15 @@ public class MenuController : MonoBehaviour
             Pause();
         }
     }
+
+    private void OnDestroy()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+    }
+
     public void Pause()
     {
         if (canvas.gameObject.activeInHierarchy == false)

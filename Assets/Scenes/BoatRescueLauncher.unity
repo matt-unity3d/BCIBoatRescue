@@ -155,8 +155,15 @@ MonoBehaviour:
   _initializables:
   - {fileID: 2095004658}
   _initializeSceneName: Level
-  _testLevel: {fileID: 11400000, guid: 9594c6796dc4b9d4089daa9109b45230, type: 2}
-  _buildOnStart: 0
+  _levelSequences:
+  - {fileID: 11400000, guid: 2524c2a0bfc31b647987c0a80a4891b3, type: 2}
+  - {fileID: 11400000, guid: 4af787f53e8e8b94c93bf38e2af32901, type: 2}
+  - {fileID: 11400000, guid: 8bb6ff2558d41454cace06171059f3b9, type: 2}
+  - {fileID: 11400000, guid: ddf9ef15e4af2a241b418b5a7b166142, type: 2}
+  - {fileID: 11400000, guid: 3a7360f58ed98974381a8497dc2b4b78, type: 2}
+  - {fileID: 11400000, guid: 909d562392fb147438df2e8e36843c0c, type: 2}
+  - {fileID: 11400000, guid: ab0671cd206ddca4eb48d0e0f25703e6, type: 2}
+  _levelIndex: 0
 --- !u!4 &287537058
 Transform:
   m_ObjectHideFlags: 0
@@ -202,6 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a471b76d3c6435d9eaea78a2a00fa56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnDirectionTriggered:
+    m_PersistentCalls:
+      m_Calls: []
   OnConfirmTriggered:
     m_PersistentCalls:
       m_Calls: []

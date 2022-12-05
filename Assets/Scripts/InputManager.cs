@@ -24,45 +24,17 @@ public class InputManager : MonoBehaviour, IInitializable
     }
 
     #region BCI Input
-
-    public void AssignStimulusObjects()
-    {
-        if (_bciController == null)
-        {
-            return;
-        }
-        
-        _bciController.objectList = _activeSpoObjects
-                                    .Select(o => o.gameObject)
-                                    .ToList();
-    }
     
     public void ToggleStimulusInput(bool enable)
     {
-        if (_bciController == null)
+        if (_bciController == null || _bciController.stimOn == enable)
         {
             return;
         }
         
-        if (enable)
-        {
-            AssignStimulusObjects();
-            _bciController.StimulusOn();
-        }
-        else
-        {
-            _bciController.StimulusOff();
-        }
-    }
-    
-    public void RegisterSpoObject(SPO spo)
-    {
-        _activeSpoObjects.Add(spo);
-    }
-
-    public void UnregisterSpoObject(SPO spo)
-    {
-        _activeSpoObjects.Remove(spo);
+        Debug.Log("<b>Starting Stim</b>");
+        Debug.Log($"<b>{_bciController.objectList.Count}</b>");
+        _bciController.StartStopStimulus();
     }
 
     #endregion

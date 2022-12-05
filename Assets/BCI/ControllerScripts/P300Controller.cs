@@ -4,6 +4,8 @@ using System.Diagnostics;
 using UnityEngine;
 using System;
 using System.Linq;
+using System.Text;
+using Debug = UnityEngine.Debug;
 
 public class P300Controller : Controller
 {
@@ -196,16 +198,30 @@ public class P300Controller : Controller
             int totalFlashes = numFlashesPerObjectPerSelection * objectList.Count;
             int[] stimOrder = MakeRNRA(totalFlashes, objectList.Count);
 
+            List<SPO> spoList = new();
+            foreach (var spoGO in objectList)
+            {
+                if (spoGO.TryGetComponent<SPO>(out var spo))
+                {
+                    spoList.Add(spo);
+                }
+            }
+            
             for (int i = 0; i < stimOrder.Length; i++)
             {
                 // 
-                GameObject currentObject = objectList[stimOrder[i]];
+                var spo = spoList[stimOrder[i]];
+                if (spo == null)
+                {
+                    Debug.LogWarning("Null SPO");
+                    continue;
+                }
 
                 /////
                 //This block keeps taking longer and longer... maybe.... try timing it?
-                string markerString = "p300,s," + objectList.Count.ToString();
+                string markerString = "p300,s," + spoList.Count.ToString();
 
-                if (trainTarget <= objectList.Count)
+                if (trainTarget <= spoList.Count)
                 {
                     markerString = markerString + "," + trainTarget.ToString();
                 }
@@ -221,7 +237,7 @@ public class P300Controller : Controller
 
                 //Turn on
 
-                timeOfFlash = currentObject.GetComponent<SPO>().TurnOn();
+                timeOfFlash = spo.TurnOn();
 
 
                 //Send marker
@@ -245,7 +261,7 @@ public class P300Controller : Controller
                 yield return new WaitForSecondsRealtime(onTime);
 
                 //Turn off
-                currentObject.GetComponent<SPO>().TurnOff();
+                spo.TurnOff();
 
                 //Wait
                 yield return new WaitForSecondsRealtime(offTime);

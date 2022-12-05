@@ -8,10 +8,13 @@ public class GameManager : MonoBehaviour
 {
     [Header("Initialize")]
     [SerializeField] private GameObject[] _initializables = Array.Empty<GameObject>();
+
     [SerializeField] private string _initializeSceneName;
-    
-    [Header("TestLevel")]
-    [SerializeField] private LevelBuilderInstructions _testLevel;
+
+    [Header("Levels")]
+    [SerializeField] private LevelBuilderInstructions[] _levelSequences = Array.Empty<LevelBuilderInstructions>();
+
+    [SerializeField] private int _levelIndex;
 
     public static GameManager Instance;
 
@@ -43,24 +46,20 @@ public class GameManager : MonoBehaviour
                     initializable.Initialize();
                 }
             }
-            
+
             _inputManager = InputManager.Instance;
             _inputManager.OnDirectionTriggered.AddListener(MovePlayers);
             LoadScene(_initializeSceneName);
         }
     }
-
+    
     #region Managers
 
     public void RegisterBuilder(LevelBuilder builder)
     {
         _builder = builder;
-        if (ActiveLevel == null)
-        {
-            EnterLevel();
-        }
     }
-    
+
     public void UnregisterBuilder(LevelBuilder builder)
     {
         if (_builder == builder)
@@ -73,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         _uiManager = manager;
     }
-    
+
     public void UnregisterUIManager(UIManager manager)
     {
         if (_uiManager == manager)
@@ -85,19 +84,25 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region SceneManagement
+
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
     #endregion
-    
+
     [ContextMenu("Build Test Level")]
     public void EnterLevel()
     {
         Reset();
-        
-        ActiveLevel = _builder.BuildLevel(_testLevel);
+
+        if (_levelSequences.Length == 0 || _levelIndex < 0 || _levelIndex >= _levelSequences.Length)
+        {
+            return;
+        }
+
+        ActiveLevel = _builder.BuildLevel(_levelSequences[_levelIndex]);
         _uiManager.InitializeLevelDetails(ActiveLevel);
         _totalRewards = ActiveLevel.TotalRewards;
 
@@ -108,7 +113,7 @@ public class GameManager : MonoBehaviour
     public void LeaveLevel()
     {
         _inputManager.ToggleStimulusInput(false);
-        
+
         _builder.DestroyLevel(ActiveLevel);
         ActiveLevel = null;
     }
@@ -126,6 +131,8 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+
+        _inputManager.ToggleStimulusInput(false);
         
         UpdateMoveScore();
         foreach (var player in ActiveLevel.Players)
@@ -138,14 +145,16 @@ public class GameManager : MonoBehaviour
 
     public void TriggerLevelWin()
     {
+        //_inputManager.ToggleStimulusInput(false);
         _uiManager.ToggleGameWin(true);
-        _inputManager.ToggleStimulusInput(true);
+        //_inputManager.ToggleStimulusInput(true);
     }
-    
+
     public void TriggerGameOver()
     {
+        //_inputManager.ToggleStimulusInput(false);
         _uiManager.ToggleGameOver(true);
-        _inputManager.ToggleStimulusInput(true);
+        //_inputManager.ToggleStimulusInput(true);
     }
 
     public void UpdateRewardScore()
@@ -158,7 +167,7 @@ public class GameManager : MonoBehaviour
             TriggerLevelWin();
         }
     }
-    
+
     public void UpdateMoveScore()
     {
         ++_movesCount;
@@ -174,11 +183,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WaitForPlayerMovement()
     {
-        _inputManager.ToggleStimulusInput(false);
-        
         yield return new WaitForSecondsRealtime(0.2f);
-        yield return new WaitUntil(()=> !ActiveLevel.PlayersMoving);
-        
+        yield return new WaitUntil(() => !ActiveLevel.PlayersMoving());
+
         _inputManager.ToggleStimulusInput(true);
         _waitForMovementCoroutine = null;
     }

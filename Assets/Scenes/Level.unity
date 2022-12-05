@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 485830233}
   m_Layer: 5
   m_Name: Left
-  m_TagString: Untagged
+  m_TagString: BCI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -787,7 +787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onColour: {r: 1, g: 0, b: 0, a: 1}
-  offColour: {r: 0, g: 0, b: 0, a: 0}
+  offColour: {r: 1, g: 1, b: 1, a: 1}
   includeMe: 1
   myIndex: 0
   hasImageChild: 0
@@ -796,6 +796,7 @@ MonoBehaviour:
   _onInputReceived:
     m_PersistentCalls:
       m_Calls: []
+  selectedColor: {r: 0, g: 1, b: 0.0153307915, a: 1}
   _direction: 2
 --- !u!1 &583861328
 GameObject:
@@ -812,7 +813,7 @@ GameObject:
   - component: {fileID: 583861333}
   m_Layer: 5
   m_Name: Restart
-  m_TagString: Untagged
+  m_TagString: BCI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -954,6 +955,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  selectedColor: {r: 0.020888448, g: 1, b: 0, a: 1}
 --- !u!1 &608112371
 GameObject:
   m_ObjectHideFlags: 0
@@ -1291,7 +1293,7 @@ GameObject:
   - component: {fileID: 699752869}
   m_Layer: 5
   m_Name: Right
-  m_TagString: Untagged
+  m_TagString: BCI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1412,7 +1414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onColour: {r: 1, g: 0, b: 0, a: 1}
-  offColour: {r: 0, g: 0, b: 0, a: 0}
+  offColour: {r: 1, g: 1, b: 1, a: 1}
   includeMe: 1
   myIndex: 0
   hasImageChild: 0
@@ -1421,6 +1423,7 @@ MonoBehaviour:
   _onInputReceived:
     m_PersistentCalls:
       m_Calls: []
+  selectedColor: {r: 0, g: 1, b: 0.0153307915, a: 1}
   _direction: 3
 --- !u!1 &705507993
 GameObject:
@@ -1801,7 +1804,7 @@ GameObject:
   - component: {fileID: 777096036}
   m_Layer: 5
   m_Name: Down
-  m_TagString: Untagged
+  m_TagString: BCI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1922,7 +1925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onColour: {r: 1, g: 0, b: 0, a: 1}
-  offColour: {r: 0, g: 0, b: 0, a: 0}
+  offColour: {r: 1, g: 1, b: 1, a: 1}
   includeMe: 1
   myIndex: 0
   hasImageChild: 0
@@ -1931,6 +1934,7 @@ MonoBehaviour:
   _onInputReceived:
     m_PersistentCalls:
       m_Calls: []
+  selectedColor: {r: 0, g: 1, b: 0.0153307915, a: 1}
   _direction: 1
 --- !u!1 &844901732
 GameObject:
@@ -1947,7 +1951,7 @@ GameObject:
   - component: {fileID: 844901737}
   m_Layer: 5
   m_Name: Up
-  m_TagString: Untagged
+  m_TagString: BCI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2068,7 +2072,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onColour: {r: 1, g: 0, b: 0, a: 1}
-  offColour: {r: 0, g: 0, b: 0, a: 0}
+  offColour: {r: 1, g: 1, b: 1, a: 1}
   includeMe: 1
   myIndex: 0
   hasImageChild: 0
@@ -2077,6 +2081,7 @@ MonoBehaviour:
   _onInputReceived:
     m_PersistentCalls:
       m_Calls: []
+  selectedColor: {r: 0, g: 1, b: 0.0153307915, a: 1}
   _direction: 0
 --- !u!1 &885998079
 GameObject:
@@ -2389,7 +2394,7 @@ GameObject:
   - component: {fileID: 1003409447}
   m_Layer: 5
   m_Name: Restart
-  m_TagString: Untagged
+  m_TagString: BCI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2531,6 +2536,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  selectedColor: {r: 0.020888448, g: 1, b: 0, a: 1}
 --- !u!1 &1157216227
 GameObject:
   m_ObjectHideFlags: 0
@@ -3127,7 +3133,7 @@ GameObject:
   - component: {fileID: 1301274189}
   m_Layer: 5
   m_Name: Restart
-  m_TagString: Untagged
+  m_TagString: BCI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3269,6 +3275,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  selectedColor: {r: 0.049563646, g: 1, b: 0, a: 1}
 --- !u!1 &1483314601
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,6 +15,8 @@ public class SpoButton: SPO
     [SerializeField] private ButtonType _type;
     [SerializeField] protected UnityEvent _onInputReceived;
 
+    public Color selectedColor;
+    
     private bool _registerOnStart;
 
     private void Start()
@@ -55,12 +57,13 @@ public class SpoButton: SPO
     public override void OnSelection()
     {
         _onInputReceived?.Invoke();
+        _buttonImage.color = selectedColor;
         Debug.Log($"SPO button received input: {gameObject.name}");
     }
     
     protected virtual void Register()
     {
-        InputManager.Instance.RegisterSpoObject(this);
+        includeMe = true;
         
         switch (_type)  
         {
@@ -80,7 +83,7 @@ public class SpoButton: SPO
             return;
         }
         
-        InputManager.Instance.UnregisterSpoObject(this);
+        includeMe = false;
         
         switch (_type)  
         {

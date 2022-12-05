@@ -3,10 +3,10 @@
 public class NavigationSpoButton : SpoButton
 {
     [SerializeField] private PlayerMoveDirection _direction;
-    
+
     protected override void Register()
     {
-        InputManager.Instance.RegisterSpoObject(this);
+        includeMe = true;
     }
 
     protected override void Unregister()
@@ -15,14 +15,13 @@ public class NavigationSpoButton : SpoButton
         {
             return;
         }
-        
-        InputManager.Instance.UnregisterSpoObject(this);
+
+        includeMe = false;
     }
-    
+
     public override void OnSelection()
     {
         GameManager.Instance.MovePlayers(_direction);
-        Debug.Log($"SPO Object selected: {gameObject.name}. {_direction}");
-        _onInputReceived?.Invoke();
+        base.OnSelection();
     }
 }

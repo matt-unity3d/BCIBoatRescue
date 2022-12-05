@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
         _levelCompletePanel.SetActive(visible);
         
         _gameOverPanel.SetActive(!visible);
-        _levelPanel.SetActive(!visible);
+        //_levelPanel.SetActive(!visible);
         
         _gameWinMovementText.SetText($"Moves: {_movementText.text}");
     }
