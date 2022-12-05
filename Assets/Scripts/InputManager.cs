@@ -1,19 +1,74 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour, IInitializable
 {
     public static InputManager Instance;
-    
-    public UnityEvent OnConfirmTriggered = new UnityEvent();
-    public UnityEvent OnCancelTriggered = new UnityEvent();
+
+    public UnityEvent<PlayerMoveDirection> OnDirectionTriggered = new();
+    public UnityEvent OnConfirmTriggered = new();
+    public UnityEvent OnCancelTriggered = new();
+
+    private P300Controller _bciController;
+    private List<SPO> _activeSpoObjects = new();
 
     public void Initialize()
     {
         Instance = this;
+        _bciController = FindObjectOfType<P300Controller>();
+        
         DontDestroyOnLoad(this);
     }
+
+    #region BCI Input
+
+    public void AssignStimulusObjects()
+    {
+        if (_bciController == null)
+        {
+            return;
+        }
+        
+        _bciController.objectList = _activeSpoObjects
+                                    .Select(o => o.gameObject)
+                                    .ToList();
+    }
+    
+    public void ToggleStimulusInput(bool enable)
+    {
+        if (_bciController == null)
+        {
+            return;
+        }
+        
+        if (enable)
+        {
+            AssignStimulusObjects();
+            _bciController.StimulusOn();
+        }
+        else
+        {
+            _bciController.StimulusOff();
+        }
+    }
+    
+    public void RegisterSpoObject(SPO spo)
+    {
+        _activeSpoObjects.Add(spo);
+    }
+
+    public void UnregisterSpoObject(SPO spo)
+    {
+        _activeSpoObjects.Remove(spo);
+    }
+
+    #endregion
+
+    
+    #region Unity Input
 
     public void OnConfirmReceived(InputAction.CallbackContext inputContext)
     {
@@ -35,7 +90,7 @@ public class InputManager : MonoBehaviour, IInitializable
     {
         if (inputContext.performed)
         {
-            GameManager.Instance.MovePlayers(PlayerMoveDirection.Up);
+            OnDirectionTriggered?.Invoke(PlayerMoveDirection.Up);
         }
     }
 
@@ -43,7 +98,7 @@ public class InputManager : MonoBehaviour, IInitializable
     {
         if (inputContext.performed)
         {
-            GameManager.Instance.MovePlayers(PlayerMoveDirection.Down);
+            OnDirectionTriggered?.Invoke(PlayerMoveDirection.Down);
         }
     }
 
@@ -51,7 +106,7 @@ public class InputManager : MonoBehaviour, IInitializable
     {
         if (inputContext.performed)
         {
-            GameManager.Instance.MovePlayers(PlayerMoveDirection.Left);
+            OnDirectionTriggered?.Invoke(PlayerMoveDirection.Left);
         }
     }
 
@@ -59,12 +114,9 @@ public class InputManager : MonoBehaviour, IInitializable
     {
         if (inputContext.performed)
         {
-            GameManager.Instance.MovePlayers(PlayerMoveDirection.Right);
+            OnDirectionTriggered?.Invoke(PlayerMoveDirection.Right);
         }
     }
-}
 
-public interface IInitializable
-{
-    public void Initialize();
+    #endregion
 }

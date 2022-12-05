@@ -19,6 +19,7 @@ public class LevelBuilder : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (GameManager.Instance == null) return;
         GameManager.Instance.UnregisterBuilder(this);
     }
 

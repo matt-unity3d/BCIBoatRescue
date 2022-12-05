@@ -23,6 +23,11 @@ public class UIManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (GameManager.Instance == null)
+        {
+            return;
+        }
+        
         GameManager.Instance.UnregisterUIManager(this);
     }
 

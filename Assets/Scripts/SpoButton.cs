@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class NavigationButton : MonoBehaviour
+public class SpoButton: SPO
 {
     private enum ButtonType
     {
@@ -10,8 +11,9 @@ public class NavigationButton : MonoBehaviour
         Cancel,
     }
 
+    [SerializeField] private Image _buttonImage;
     [SerializeField] private ButtonType _type;
-    [SerializeField] private UnityEvent _onInputReceived;
+    [SerializeField] protected UnityEvent _onInputReceived;
 
     private bool _registerOnStart;
 
@@ -39,39 +41,54 @@ public class NavigationButton : MonoBehaviour
     {
         Unregister();
     }
-
-    private void OnInputTriggered()
+    public override float TurnOn()
     {
-        _onInputReceived?.Invoke();
+        _buttonImage.color = onColour;
+        return Time.time;
     }
 
-    private void Register()
+    public override void TurnOff()
     {
+        _buttonImage.color = offColour;
+    }
+
+    public override void OnSelection()
+    {
+        _onInputReceived?.Invoke();
+        Debug.Log($"SPO button received input: {gameObject.name}");
+    }
+    
+    protected virtual void Register()
+    {
+        InputManager.Instance.RegisterSpoObject(this);
+        
         switch (_type)  
         {
             case ButtonType.Select:
-                InputManager.Instance.OnConfirmTriggered.AddListener(OnInputTriggered);
+                InputManager.Instance.OnConfirmTriggered.AddListener(OnSelection);
                 break;
             case ButtonType.Cancel:
-                InputManager.Instance.OnCancelTriggered.AddListener(OnInputTriggered);
+                InputManager.Instance.OnCancelTriggered.AddListener(OnSelection);
                 break;
         }
     }
 
-    private void Unregister()
+    protected virtual void Unregister()
     {
         if (InputManager.Instance == null)
         {
             return;
         }
         
+        InputManager.Instance.UnregisterSpoObject(this);
+        
         switch (_type)  
         {
             case ButtonType.Select:
-                InputManager.Instance.OnConfirmTriggered.RemoveListener(OnInputTriggered);
+                InputManager.Instance.OnConfirmTriggered.RemoveListener(OnSelection);
                 break;
             case ButtonType.Cancel:
-                InputManager.Instance.OnCancelTriggered.RemoveListener(OnInputTriggered);
+                InputManager.Instance.OnCancelTriggered.RemoveListener(OnSelection);
                 break;
         }
     }

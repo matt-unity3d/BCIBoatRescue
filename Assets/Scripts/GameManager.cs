@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,19 +13,20 @@ public class GameManager : MonoBehaviour
     [Header("TestLevel")]
     [SerializeField] private LevelBuilderInstructions _testLevel;
 
-    [SerializeField] private bool _buildOnStart = true;
-
     public static GameManager Instance;
 
     public Level ActiveLevel { get; private set; }
 
     //Services
+    private InputManager _inputManager;
     private UIManager _uiManager;
     private LevelBuilder _builder;
 
     private int _movesCount = 0;
     private int _totalRewards = 0;
     private int _rewardsCount = 0;
+
+    private Coroutine _waitForMovementCoroutine;
 
     private void Awake()
     {
@@ -42,6 +44,8 @@ public class GameManager : MonoBehaviour
                 }
             }
             
+            _inputManager = InputManager.Instance;
+            _inputManager.OnDirectionTriggered.AddListener(MovePlayers);
             LoadScene(_initializeSceneName);
         }
     }
@@ -51,6 +55,10 @@ public class GameManager : MonoBehaviour
     public void RegisterBuilder(LevelBuilder builder)
     {
         _builder = builder;
+        if (ActiveLevel == null)
+        {
+            EnterLevel();
+        }
     }
     
     public void UnregisterBuilder(LevelBuilder builder)
@@ -92,11 +100,15 @@ public class GameManager : MonoBehaviour
         ActiveLevel = _builder.BuildLevel(_testLevel);
         _uiManager.InitializeLevelDetails(ActiveLevel);
         _totalRewards = ActiveLevel.TotalRewards;
+
+        _inputManager.ToggleStimulusInput(true);
     }
 
     [ContextMenu("Destroy Test Level")]
     public void LeaveLevel()
     {
+        _inputManager.ToggleStimulusInput(false);
+        
         _builder.DestroyLevel(ActiveLevel);
         ActiveLevel = null;
     }
@@ -110,7 +122,7 @@ public class GameManager : MonoBehaviour
 
     public void MovePlayers(PlayerMoveDirection direction)
     {
-        if (ActiveLevel == null || ActiveLevel.PlayersMoving)
+        if (ActiveLevel == null || _waitForMovementCoroutine != null)
         {
             return;
         }
@@ -120,16 +132,20 @@ public class GameManager : MonoBehaviour
         {
             player.Move(direction);
         }
+
+        _waitForMovementCoroutine = StartCoroutine(WaitForPlayerMovement());
     }
 
     public void TriggerLevelWin()
     {
         _uiManager.ToggleGameWin(true);
+        _inputManager.ToggleStimulusInput(true);
     }
     
     public void TriggerGameOver()
     {
         _uiManager.ToggleGameOver(true);
+        _inputManager.ToggleStimulusInput(true);
     }
 
     public void UpdateRewardScore()
@@ -154,5 +170,16 @@ public class GameManager : MonoBehaviour
         ActiveLevel = null;
         _movesCount = 0;
         _rewardsCount = 0;
+    }
+
+    private IEnumerator WaitForPlayerMovement()
+    {
+        _inputManager.ToggleStimulusInput(false);
+        
+        yield return new WaitForSecondsRealtime(0.2f);
+        yield return new WaitUntil(()=> !ActiveLevel.PlayersMoving);
+        
+        _inputManager.ToggleStimulusInput(true);
+        _waitForMovementCoroutine = null;
     }
 }
